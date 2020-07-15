@@ -48,7 +48,6 @@
 import axios from 'axios'
 export default {
     layout:'header',
-    el: '#app',
     data() {
         return {
             teacher_name:'',
