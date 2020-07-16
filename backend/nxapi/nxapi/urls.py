@@ -19,5 +19,6 @@ from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('reqToken', views.reqToken, name='requestToken')
+    path('reqToken', views.reqToken, name='requestToken'),
+    path('add', views.add)
 ]

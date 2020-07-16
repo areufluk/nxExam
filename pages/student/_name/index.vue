@@ -1,6 +1,6 @@
 <template>
   <div>
-      <dashheader firstname="someone" status="Student"/>
+      <dashheader :firstname="$route.params.name" status="Student"/>
       <h1>Hellllloo</h1>
   </div>
 </template>

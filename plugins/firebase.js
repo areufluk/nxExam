@@ -9,7 +9,6 @@ var firebaseConfig = {
     messagingSenderId: "324791212286",
     appId: "1:324791212286:web:fc6b6e56880d1564792daf",
     measurementId: "G-KCR57KDFJQ"
-
   };
   let app = null
   // prevent initializing firebase more than once
