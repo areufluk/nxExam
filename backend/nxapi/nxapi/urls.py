@@ -19,5 +19,8 @@ from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('reqToken', views.reqToken, name='requestToken')
+    path('reqToken', views.reqToken, name='requestToken'),
+    path('ShowSubject', views.showSub, name='showSub'),
+    path('InsertSubject', views.saveSub, name='saveSub'),
+    path('InsertProb', views.saveProb, name='saveProb')
 ]

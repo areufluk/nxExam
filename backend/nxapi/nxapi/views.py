@@ -4,6 +4,15 @@ from rest_framework.decorators import api_view
 from cryptography.fernet import Fernet
 from rest_framework import status
 
+from .models_insert import createSubModel
+from .serialization import createSubSerialize
+
+from .models_insert_prob import createProbModel
+from .serialization import createProbSerialize
+
+from .serialization import serializationClass
+from .models import subModel
+
 key = Fernet.generate_key()
 cipher = Fernet(key)
 
@@ -25,6 +34,30 @@ def mail_validate(mail):
   
   return status 
 
+@api_view(['GET'])
+def showSub(request):
+    if request.method == 'GET' :
+        results = subModel.objects.all()
+        serialize = serializationClass(results, many = True)
+        return Response(serialize.data)
+
+@api_view(['POST'])
+def saveSub(request):
+    if request.method == 'POST':
+        saveSerialize = createSubSerialize(data=request.data)
+        if saveSerialize.is_valid():
+            saveSerialize.save()
+            return Response(saveSerialize.data, status = status.HTTP_201_CREATED)
+            return Response(saveSerialize.data, status = status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+def saveProb(request):
+    if request.method == 'POST':
+        saveSerialize = createProbSerialize(data=request.data)
+        if saveSerialize.is_valid():
+            saveSerialize.save()
+            return Response(saveSerialize.data, status = status.HTTP_201_CREATED)
+            return Response(saveSerialize.data, status = status.HTTP_400_BAD_REQUEST)
 
 
   

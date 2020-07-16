@@ -66,11 +66,6 @@ export default {
             question:'',
             arrChoice:[],
             level:'0'
-            // level_list:[
-            //     { value:'1', text:'easy'},
-            //     { value:'1', text:'easy'},
-            //     { value:'1', text:'easy'}
-            // ]
         }
     },
     methods: {
