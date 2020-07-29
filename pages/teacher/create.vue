@@ -45,7 +45,20 @@ export default {
     },
     methods: {
         async postSubmit() {
-            await axios.get('http://127.0.0.1:8000/add')
+            await axios.post('http://127.0.0.1:8000/saveSubject' ,{
+            teacher_name:this.teacher_name,
+            created_by:this.created_by
+            /*subject_name:this.subject_name,
+            subject_id:this.subject_id,
+            start_time:this.start_time,
+            end_time:this.end_time,
+            easy:this.easy,
+            medium:this.medium,
+            hard:this.hard,
+            backward:this.backward,
+            scoring_method:this.scoring_method,
+            show_score:this.show_score*/
+            })
             .then((res) => console.log(res.data))
             .catch((err) => console.log(err))
         },

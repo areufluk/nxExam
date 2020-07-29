@@ -1,5 +1,14 @@
 <template>
   <div>
-      <h1>Hellllloo</h1> 
+      <dashheader :firstname="$store.state.name" status="Student"/>
   </div>
 </template>
+
+<script>
+import dashheader from '@/components/dashHD'
+export default {
+  components: {
+    dashheader
+  }
+}
+</script>

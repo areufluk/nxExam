@@ -18,27 +18,14 @@
 </template>
 
 <script>
-  import axios from 'axios'
-  export default {
+export default {
   methods: {
     async signInWithPopup() {
-      var obj = null
-      var provider = new this.$firebase.auth.GoogleAuthProvider()
-      await this.$firebase.auth().signInWithPopup(provider).then(function(result){
-        /*obj = {
-        google_id: result.additionalUserInfo.profile.id,
-        givenname: result.additionalUserInfo.profile.given_name,
-        email: result.additionalUserInfo.profile.email,
-        profile_image: result.additionalUserInfo.profile.picture
-        }*/
-        obj = result.additionalUserInfo.profile
-        console.log(obj)
-      }).catch(function(err) {
-        console.log(err.code)
-      })
-      await axios.post('http://127.0.0.1:8000/reqToken' ,{ obj })
-      .then( (res) => (res.data == 200)? this.$router.push('student/' + obj.given_name) : ((res.data == 300)? this.$router.push('teacher/' + obj.given_name) : null))
-      .catch((err) => console.log(err))
+      try {
+        await this.$store.dispatch('login')
+      } catch (e) {
+        console.log(e)
+      }
     }
   }
 }

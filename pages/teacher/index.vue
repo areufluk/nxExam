@@ -1,5 +1,7 @@
 <template>
-    <div class="card-area">
+  <div>
+      <dashheader :firstname="$route.params.name" status="Teacher"/>
+      <div class="card-area">
         <div v-for="n in 5" :key="n" class="col-sm-6 col-lg-3">
             <div class="card">
                 <div clsss="card-body">
@@ -23,11 +25,15 @@
             </a>
         </div>
     </div>
+  </div>
 </template>
 
 <script>
+import dashheader from '@/components/dashHD'
 export default {
-    
+  components: {
+    dashheader
+  }  
 }
 </script>
 
