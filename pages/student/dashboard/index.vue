@@ -1,43 +1,38 @@
 <template>
-    <div class="card-area">
-        <div v-for="data in datas" :key="data.id" class="col-sm-6 col-lg-3">
-            <div class="card">
-                <div clsss="card-body">
-                    <p class="title_subject" v-if="data.subject_name.length < 15"> {{ data.subject_name }} </p>
-                    <p class="title_subject" v-else> {{ data.subject_name.substring(0,15) + ".." }} </p>
-                    <p class="detail"> {{ "Subject ID : " + data.subject_id }} </p>
-                    <p class="detail"> {{ "Teachere : " + data.teacher_name }} </p>
-                    <p class="detail" v-if="data.start_time.substring(0,10) == data.end_time.substring(0,10)"> {{ "Date : " + data.start_time.substring(0,10) }} </p>
-                    <p class="detail"> {{ "Time : " + data.start_time.substring(11,19) + " - " + data.end_time.substring(11,19)}} </p>
-                    <div class="list_menu">
-                        <div class="report">Report</div>
-                        <img class="edit" src="~/assets/image/edit.svg">
-                        <img class="delete" src="~/assets/image/recycle.svg">
-                    </div>
-                </div>
-            </div>
+  <div class="card-area">
+    <div v-for="(data, index) in datas" :key="index" class="col-sm-6 col-lg-3">
+      <div class="card">
+        <div clsss="card-body">
+          <p class="title_subject" v-if="data.subject_name.length < 15"> {{ data.subject_name }} </p>
+          <p class="title_subject" v-else> {{ data.subject_name.substring(0,15) + ".." }} </p>
+          <p class="detail"> {{ "Subject ID : " + data.subject_id }} </p>
+          <p class="detail"> {{ "Teachere : " + data.teacher_name }} </p>
+          <p class="detail" v-if="data.start_time.substring(0,10) == data.end_time.substring(0,10)"> {{ "Date : " + data.start_time.substring(0,10) }} </p>
+          <p class="detail"> {{ "Time : " + data.start_time.substring(11,19) + " - " + data.end_time.substring(11,19)}} </p>
+          <div class="list_menu">
+            <a href="testing" class="report" @click="log(data,index)">JOIN</a>
+          </div>
         </div>
-        <div class="col-sm-6 col-lg-3"> 
-            <a class="link" href="create">
-                <div class="card-create">
-                    <div class="card-body">
-                        <p class="syntax"> + </p>
-                        <p class="title"> Create Subject </p>
-                    </div>
-                </div>
-            </a>
-        </div>
+      </div>
     </div>
+  </div>
 </template>
 
 <script>
 import axios from 'axios'
 export default {
+    layout:'header',
     async asyncData(){
         const { data } = await axios.get(
             'http://127.0.0.1:8000/ShowSubject'
         )
         return { datas : data}
+    },
+    methods: {
+      log(data,index){
+        console.log(data.subject_id)
+        localStorage.setItem('subject_id',data.subject_id)
+      }
     }
 }
 </script>
@@ -118,7 +113,7 @@ export default {
     flex-wrap: wrap;
 }
 .report{
-    width: 35%;
+    width: 45%;
     text-align: center;
     border-radius: 1.2rem;
     background-color: #FF8800;
@@ -126,7 +121,8 @@ export default {
     font-size: 1.5rem;
     /* font-family: "Comic Sans MS", cursive, sans-serif; */
     color: white;
-    padding:0.1rem
+    padding:0.1rem;
+    cursor: pointer;
 }
 .edit{
     height: 2.5rem;
@@ -148,8 +144,5 @@ export default {
     /* font-family: "Comic Sans MS", cursive, sans-serif; */
     text-align: center;
     color: #BFBFBF;
-}
-a {
-    text-decoration: none !important;
 }
 </style>

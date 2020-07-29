@@ -5,6 +5,9 @@ from .models_insert import createSubModel
 
 from .models_insert_prob import createProbModel
 
+from .models_insert_choice import createChoiceModel
+
+from .models_filter import subjectFilterModel
 class serializationClass(serializers.ModelSerializer):
     class Meta:
         model = subModel
@@ -37,4 +40,24 @@ class createProbSerialize(serializers.ModelSerializer):
         'level',
         'score_plus',
         'score_sub'
+        ]
+
+class createChoiceSerialize(serializers.ModelSerializer):
+    class Meta:
+        model = createChoiceModel
+        fields = [
+        'id_problem',
+        'choice_text',
+        'IsTrue'
+        ]
+
+class subjectFilterSerialize(serializers.ModelSerializer):
+    class Meta:
+        model = subjectFilterModel
+        fields = [
+            'id_exam',
+            'problem',
+            'level',
+            'score_plus',
+            'score_sub'
         ]

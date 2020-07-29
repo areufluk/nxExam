@@ -19,12 +19,10 @@ from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('reqToken', views.reqToken, name='requestToken'),
-<<<<<<< HEAD
-    path('add', views.add),
+    # path('reqToken', views.reqToken, name='requestToken'),
     path('ShowSubject', views.showSub, name='showSub'),
     path('InsertSubject', views.saveSub, name='saveSub'),
-    path('InsertProb', views.saveProb, name='saveProb')
-=======
->>>>>>> 78742e0263ed7d1972681ea6f336910a8c24ed9a
+    path('InsertProb', views.saveProb, name='saveProb'),
+    path('InsertChoice',views.saveChoice, name='saveChoice'),
+    path('ShowSubjectFilter',views.showSubFilter, name='showSubFilter')
 ]

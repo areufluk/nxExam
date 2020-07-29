@@ -1,7 +1,8 @@
 <template>
-    <div id="app">
+    <div>
         <v-btn class="open-button" @click="openForm()">Option</v-btn>
-        <v-btn class="save-button" @click="postSubmit()"> Save </v-btn>
+        <v-btn class="save-button" @click="postSubmit(),log(),postProblem()"> Save </v-btn>
+        <v-btn class="next-button" @click="next()"> Next </v-btn>
         <div class="form-popup" id="myForm">
             <form action="/action_page.php" class="form-container">
                 <v-text-field v-model="teacher_name" name="teacher_name" label="teacher name"  hide-details="auto" ></v-text-field>
@@ -21,24 +22,32 @@
         </div>
         <div class="form-question">
             <v-col class="d-flex" cols="12" sm="10">
-            <p class="topic">Question {{index}}</p>
-            <v-text-field v-model="question" name="question" style="padding:0 0 1rem 0"></v-text-field>
+                <p class="topic">Question {{arrQuestion.length}}</p>
+                <v-text-field v-model="question" name="question" style="padding:0 0 1rem 0"></v-text-field>
+                
             </v-col>
             <div class="choice" v-for="(data,index) in arrChoice" :key="index">
                  <p class="topic">Choice {{index}}</p>
                 <v-text-field v-model="data.choice" style="margin:0 0 0.5rem 0"></v-text-field>
+                <v-checkbox v-model="data.IsTrue" :label="`Choice ${index.toString()} Is True `"></v-checkbox>
                 <v-btn @click="deleteFind(index)"> delete</v-btn>
             </div>
             <v-col class="d-flex" cols="12" sm="2">
                 <v-btn @click="addFind()" style="margin:2rem 0 0 0">Add Choice</v-btn>
                 <div class="level">
                     <p class="topic">Select Level</p>
-                    <select label="select level" id="country" name="country">
+                    <select v-model="level" label="select level" id="country" name="country">
                         <option value="Easy">Easy</option>
                         <option value="Medium">Medium</option>
                         <option value="Hard">Hard</option>
                     </select>
                 </div>
+            </v-col>
+            <v-col class="d-flex" cols="12" sm="10">
+                <p class="topic">score_plus</p>
+                <v-text-field v-model="score_plus" name="score_plus" style="padding:0 0 1rem 0"></v-text-field>
+                <p class="topic">score_sub</p>
+                <v-text-field v-model="score_sub" name="score_sub" style="padding:0 0 1rem 0"></v-text-field>
             </v-col>
         </div>
     </div>
@@ -65,7 +74,12 @@ export default {
             arrQuestion:[],
             question:'',
             arrChoice:[],
-            level:'0'
+            choice:'',
+            level:'',
+            score_plus:0,
+            score_sub:0,
+            checkbox: true,
+            sumChoice:[]
         }
     },
     methods: {
@@ -87,6 +101,26 @@ export default {
             .then((res) => console.log(res.data))
             .catch((err) => console.log(err))
         },
+        async postProblem() {
+            this.arrQuestion.push({
+                'id_exam':this.subject_id,
+                'question':this.question,
+                'level':this.level,
+                'score_plus':this.score_plus,
+                'score_sub':this.score_sub
+            });
+            for (let i=0;i<this.arrQuestion.length;i++){
+                await axios.post('http://127.0.0.1:8000/InsertProb' ,{
+                id_exam:this.arrQuestion[i].id_exam,
+                problem:this.arrQuestion[i].question,
+                level:this.arrQuestion[i].level,
+                score_plus:this.arrQuestion[i].score_plus,
+                score_sub:this.arrQuestion[i].score_sub 
+            })
+            .then((res) => console.log(res.data))
+            .catch((err) => console.log(err))
+            }
+        },
         openForm() {
             document.getElementById("myForm").style.display = "block";
         },
@@ -94,13 +128,47 @@ export default {
             document.getElementById("myForm").style.display = "none";
         },
         addFind() {
-            this.arrChoice.push({choice:''});
+            this.arrChoice.push({'choice':'',
+                                'IsTrue':'',
+                                'id_problem':this.subject_id.concat(this.arrQuestion.length.toString())
+            });
+            for (let i = 0 ; i < this.arrChoice.length ; i++){
+                if (this.arrChoice[i].IsTrue != true){
+                    this.arrChoice[i].IsTrue = false
+                }
+            }
         },
         deleteFind(index) {
-            console.log(index);
-            console.log(this.arrChoice);
             this.arrChoice.splice(index, 1);
-        }   
+        },
+        log(){
+            this.sumChoice.push(this.arrChoice)
+            console.log(this.arrQuestion)
+            // console.log(this.sumChoice[0][0])
+            console.log(this.sumChoice)
+        },
+        next(){
+            this.arrQuestion.push({
+                'id_exam':this.subject_id,
+                'question':this.question,
+                'level':this.level,
+                'score_plus':this.score_plus,
+                'score_sub':this.score_sub
+            });
+
+            this.sumChoice.push(this.arrChoice)
+            this.arrChoice.push({'choice':'',
+                                'IsTrue':'',
+                                'id_problem':''
+            });
+            
+            this.id_exam=''
+            this.question=''
+            this.level=''
+            this.score_plus=0
+            this.score_sub=0
+            this.arrChoice=[]
+        }
     }
 }
 </script>       
@@ -129,6 +197,19 @@ export default {
   padding: 1rem 2rem 2rem 1rem;
   bottom: 2rem;
   right: 11rem;
+  width: 8rem;
+}
+
+.next-button {
+    background-color: #555;
+  color: white;
+  border: none;
+  cursor: pointer;
+  opacity: 0.8;
+  position: fixed;
+  padding: 1rem 2rem 2rem 1rem;
+  bottom: 2rem;
+  right: 20rem;
   width: 8rem;
 }
 .form-popup {
