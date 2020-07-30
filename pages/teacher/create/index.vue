@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-btn class="open-button" @click="openForm()">Option</v-btn>
-        <v-btn class="save-button" @click="postSubmit(),log(),postProblem()"> Save </v-btn>
+        <v-btn class="save-button" @click="postSubmit(),log(),postProblem(),postChoice()"> Save </v-btn>
         <v-btn class="next-button" @click="next()"> Next </v-btn>
         <div class="form-popup" id="myForm">
             <form action="/action_page.php" class="form-container">
@@ -79,7 +79,8 @@ export default {
             score_plus:0,
             score_sub:0,
             checkbox: true,
-            sumChoice:[]
+            sumChoice:[],
+            id_prob:''
         }
     },
     methods: {
@@ -102,16 +103,20 @@ export default {
             .catch((err) => console.log(err))
         },
         async postProblem() {
+            this.id_prob = this.subject_id.concat(this.arrQuestion.length.toString())
             this.arrQuestion.push({
                 'id_exam':this.subject_id,
+                'id_problem':this.id_prob,
                 'question':this.question,
                 'level':this.level,
                 'score_plus':this.score_plus,
                 'score_sub':this.score_sub
             });
             for (let i=0;i<this.arrQuestion.length;i++){
+                console.log(this.arrQuestion[i])
                 await axios.post('http://127.0.0.1:8000/InsertProb' ,{
                 id_exam:this.arrQuestion[i].id_exam,
+                id_problem:this.arrQuestion[i].id_problem,
                 problem:this.arrQuestion[i].question,
                 level:this.arrQuestion[i].level,
                 score_plus:this.arrQuestion[i].score_plus,
@@ -119,6 +124,21 @@ export default {
             })
             .then((res) => console.log(res.data))
             .catch((err) => console.log(err))
+            }
+        },
+        async postChoice() {
+            this.sumChoice.push(this.arrChoice)
+            for (let i=0;i<this.sumChoice.length;i++){
+                for (let j=0;j<this.sumChoice[i].length;j++){
+                    console.log(this.sumChoice[i][j].id_problem,this.sumChoice[i][j].choice,this.sumChoice[i][j].IsTrue)
+                    await axios.post('http://127.0.0.1:8000/InsertChoice' ,{
+                        id_problem:this.sumChoice[i][j].id_problem,
+                        choice_text:this.sumChoice[i][j].choice,
+                        IsTrue:this.sumChoice[i][j].IsTrue
+                    })
+                    .then((res) => console.log(res.data))
+                    .catch((res) => console.logg(err))
+                }
             }
         },
         openForm() {
@@ -142,14 +162,15 @@ export default {
             this.arrChoice.splice(index, 1);
         },
         log(){
-            this.sumChoice.push(this.arrChoice)
             console.log(this.arrQuestion)
             // console.log(this.sumChoice[0][0])
             console.log(this.sumChoice)
         },
         next(){
+            this.id_prob = this.subject_id.concat(this.arrQuestion.length.toString())
             this.arrQuestion.push({
                 'id_exam':this.subject_id,
+                'id_problem':this.id_prob,
                 'question':this.question,
                 'level':this.level,
                 'score_plus':this.score_plus,
@@ -157,10 +178,10 @@ export default {
             });
 
             this.sumChoice.push(this.arrChoice)
-            this.arrChoice.push({'choice':'',
-                                'IsTrue':'',
-                                'id_problem':''
-            });
+            // this.arrChoice.push({'choice':'',
+            //                     'IsTrue':'',
+            //                     'id_problem':''
+            // });
             
             this.id_exam=''
             this.question=''

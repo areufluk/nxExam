@@ -3,6 +3,7 @@ from django.utils import timezone
 
 class createProbModel(models.Model):
     id_exam = models.TextField()
+    id_problem = models.TextField()
     problem = models.TextField()
     level = models.TextField()
     score_plus = models.IntegerField()

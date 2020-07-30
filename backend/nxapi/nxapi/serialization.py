@@ -36,6 +36,7 @@ class createProbSerialize(serializers.ModelSerializer):
         model = createProbModel
         fields = [
         'id_exam',
+        'id_problem',
         'problem',
         'level',
         'score_plus',

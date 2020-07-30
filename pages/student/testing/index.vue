@@ -2,7 +2,7 @@
   <div>
     <div @click="getURL()"> start </div>
     <!-- <div @click="log()"> confirm start </div> -->
-    <div v-for="problem in data.data" :key="problem.id_exam">
+    <div v-for="(problem, index) in data.data" :key="index">
         <p> 
             {{problem.problem}}
         </p>
@@ -25,9 +25,8 @@ export default {
         async getURL(){
             this.subject_id = localStorage.getItem('subject_id')
             this.url = 'http://127.0.0.1:8000/ShowSubjectFilter?id_exam='.concat(this.subject_id)
-            console.log(this.url)
             this.data = await axios.get(this.url)
-            console.log(this.data)
+            console.log(this.data.data)
         },
         log(){
             console.log(this.data.data)
