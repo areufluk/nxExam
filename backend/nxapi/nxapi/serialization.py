@@ -57,6 +57,7 @@ class subjectFilterSerialize(serializers.ModelSerializer):
         model = subjectFilterModel
         fields = [
             'id_exam',
+            'id_problem',
             'problem',
             'level',
             'score_plus',

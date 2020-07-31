@@ -152,6 +152,7 @@ export default {
                                 'IsTrue':'',
                                 'id_problem':this.subject_id.concat(this.arrQuestion.length.toString())
             });
+            console.log(this.subject_id.concat(this.arrQuestion.length.toString()))
             for (let i = 0 ; i < this.arrChoice.length ; i++){
                 if (this.arrChoice[i].IsTrue != true){
                     this.arrChoice[i].IsTrue = false
