@@ -22,7 +22,7 @@ export const actions = {
         const result = await this.$firebase.auth().signInWithPopup(provider)
         obj = result.additionalUserInfo.profile
         //request token from django
-        const token = await axios.post('http://127.0.0.1:8000/reqToken' ,{ obj })
+        const token = await axios.post('/api/reqToken' ,{ obj })
         console.log(token.data.user_token)
         //save token to sessionStorage
         if(process.browser){
@@ -40,15 +40,21 @@ export const actions = {
         console.log(err)
     }
   },
-
   async changeData({commit}, name) {
     const { data } = await axios.get(
-        'http://127.0.0.1:8000/getSublist',{
+        '/api/getSublist',{
             params: {
                 name: name
             }
         }
     )
     return data 
-}
+  },
+  async postSubmit({commit}, name, data) {
+    await axios.post('/api/saveSub' ,{
+      created_by: name,
+      e_data: data
+    })
+    .catch((err) => console.log(err))
+  }
 }

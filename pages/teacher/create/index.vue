@@ -234,12 +234,7 @@ export default {
     ),
     methods: {
         async postSubmit() {
-            await axios.post('/api/saveSub' ,{
-              created_by:this.name,
-              e_data:this.datas
-            })
-            .then((res) => console.log(res.data))
-            .catch((err) => console.log(err))
+          await this.$store.dispatch('postSubmit', this.name, this.datas)
         },
         addQuestion() {
           this.datas.arrQuestion.push(this.question)
