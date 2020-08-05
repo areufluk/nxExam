@@ -24,7 +24,7 @@
                 <div class="card-create">
                     <div class="card-body">
                         <p class="syntax"> + </p>
-                        <p class="title"> Create Subject </p>
+                        <p class="title"> Create Subject ss</p>
                     </div>
                 </div>
             </a>
