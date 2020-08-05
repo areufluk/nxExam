@@ -27,16 +27,18 @@ database=firebase.database()
 #api
 @api_view(['POST'])
 def reqToken(request):
-  if request.method == 'POST':
-    user_token = mail_validate(request.data['obj']['email'])  
-    return Response(user_token, status = status.HTTP_200_OK)
+  if request.method == 'POST': 
+    res = {}
+    res['type'] = mail_validate(request.data['obj']['email'])
+    res['user_token'] = request.data['obj']['id']  
+    return Response(res, status = status.HTTP_200_OK)
 
 @api_view(['POST'])
 def saveSubject(request):
   if request.method == 'POST':
     uid = idGen()
     print(uid)
-    database.child("Exam").child(uid).set(request.data)
+    database.child("Exam").child(uid).set(request.data['e_data'])
     database.child("Teacher").child(request.data['created_by']).child(uid).set(uid)
     return Response(status = status.HTTP_200_OK)
   return Response(status= status.HTTP_400_BAD_REQUEST)
@@ -59,14 +61,14 @@ def getSubject(request):
 
 @api_view(['GET'])
 def getSublist(request):
-  if request.method == 'GET':
-    exam = {}    
-    result = database.child("Teacher").child(request.data['name']).get()
+  exam = {}
+  if request.method == 'GET' and database.child('Teacher').child(request.GET['name']).shallow().get().val():
+    print(request.GET['name'])
+    result = database.child("Teacher").child(request.GET['name']).get()
     for uid in result.each():
       test = form_subject(uid.key())
       exam[uid.key()] = test
-    return Response(exam, status=status.HTTP_200_OK)
-  return Response(status=status.HTTP_400_BAD_REQUEST)
+  return Response(exam, status=status.HTTP_200_OK)
 
 
 #help function
@@ -75,19 +77,19 @@ def form_subject(uid):
   exam["subject_name"] = database.child("Exam").child(uid).child("subject_name").get().val()
   exam["subject_id"] = database.child("Exam").child(uid).child("subject_id").get().val()
   exam["teacher_name"] = database.child("Exam").child(uid).child("teacher_name").get().val()
-  exam["start"] = database.child("Exam").child(uid).child("start").get().val()
-  exam["end"] = database.child("Exam").child(uid).child("end").get().val()
+  exam["start_time"] = database.child("Exam").child(uid).child("start_time").get().val()
+  exam["end_time"] = database.child("Exam").child(uid).child("end_time").get().val()
   print(exam)
   return exam
 
 def mail_validate(mail):
   gmail = mail.split('@')
-  status = 300 #other
+  status = 3 #other
   if gmail[1] == 'kmitl.ac.th':
     if gmail[0][0] >= '0' and gmail[0][0] <= '9':
-      status = 200 #student
+      status = 2 #student
     else:
-      status = 100 #teacher
+      status = 1 #teacher
   return status
 
 def idGen(): 

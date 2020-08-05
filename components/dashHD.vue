@@ -1,16 +1,16 @@
 <template>
-        <div class="head">
-            <div class="h-1" style="height: 10vh">
-                <v-icon class="icon">mdi-book-open-outline</v-icon>
-                <h3>NEXTEXAM</h3>
-                <v-spacer></v-spacer>
-                <h3 style="margin-right: 6%">Logout</h3>
-            </div>
-            <div class="h-2" style="height: 27vh">
-                <h1 style="margin: 6% 6% 0px">{{firstname}}</h1>
-                <h3 style="margin-left:6%">{{status}}</h3>
-            </div>
-        </div>    
+    <v-container fluid="" class="head">
+        <div class="h-1" style="height: 6vh">
+            <v-icon color="primary" class="icon">mdi-book-open-outline</v-icon>
+            <h3>NEXTEXAM</h3>
+            <v-spacer></v-spacer>
+            <h3 style="margin-right: 6%">Logout</h3>
+        </div>
+        <div class="h-2" style="height: 27vh">
+            <h1 style="margin: 6% 6% 0px">{{firstname}}</h1>
+            <h3 style="margin-left:6%">{{status}}</h3>
+        </div>
+    </v-container>    
 </template>
 
 <script>

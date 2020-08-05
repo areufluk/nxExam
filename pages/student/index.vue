@@ -1,6 +1,6 @@
 <template>
   <div>
-      <dashheader :firstname="$store.state.name" status="Student"/>
+      <dashheader :firstname="name" status="Student"/>
   </div>
 </template>
 
@@ -9,6 +9,11 @@ import dashheader from '@/components/dashHD'
 export default {
   components: {
     dashheader
+  },
+  data(){
+    return{
+      name: (process.browser)? localStorage.getItem("name") : ''
+    }
   }
 }
 </script>
