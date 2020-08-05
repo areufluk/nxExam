@@ -57,6 +57,15 @@ export const actions = {
     )
     return data 
   },
+  async getQuestion({commit}, id) {
+    const { data } = await axios.get(
+        '/api/getSubTesting',{
+          params: {
+            subject_index:id
+        }
+        })
+    return data 
+  },
   async postSubmit({commit}, name) {
     await axios.post('/api/saveSub' ,{
       created_by: name[0],

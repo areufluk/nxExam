@@ -71,7 +71,6 @@ def getSublist(request):
       exam[uid.key()] = test
   return Response(exam, status=status.HTTP_200_OK)
 
-
 #help function
 def form_subject(uid):
   exam = {}
@@ -104,3 +103,13 @@ def getAllSubject(request):
     result = dict(result.val())
     return Response(result, status=status.HTTP_200_OK)
   return Response(status=status.HTTP_400_BAD_REQUEST)
+
+import numpy as np
+@api_view(['GET'])
+def getSubTesting(request):
+  if request.method == 'GET':
+    subject_index = request.query_params.get('subject_index',None)
+    result = database.child("Exam").child(subject_index).child("arrQuestion").get().val()
+    return Response(result, status=status.HTTP_200_OK)
+  return Response(status=status.HTTP_400_BAD_REQUEST)
+

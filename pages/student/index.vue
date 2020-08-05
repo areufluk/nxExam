@@ -2,7 +2,7 @@
   <div>
       <dashheader :firstname="name" status="Student"/>
       <div class="card-area">
-        <div v-for="data in datas" :key="data.id" class="col-sm-6 col-lg-3">
+        <div v-for="(data, index) in datas" :key="data.id" class="col-sm-6 col-lg-3">
             <div class="card">
                 <div class="card-body">
                     <p class="title_subject" v-if="data.subject_name.length < 15"> {{ data.subject_name }} </p>
@@ -12,8 +12,13 @@
                     <p class="detail"> {{ "Date : " + data.date }} </p>
                     <p class="detail"> {{ "Start : " + data.start_time }} </p>
                     <p class="detail"> {{ "End : " + data.end_time }} </p>
+                    <p class="detail"> {{ "index : " + index }} </p>
                     <div class="list_menu">
-                        <div class="report">Join</div>
+                      <a href="student/testing">
+                        <div class="join" @click="regisSubID(index)">
+                          <p>Join</p>
+                        </div>
+                      </a>
                     </div>
                 </div>
             </div>
@@ -37,11 +42,14 @@ export default {
   methods: {
     async getData() {
         try {
-            this.datas = await this.$store.dispatch('getData', this.name)
+            this.datas = await this.$store.dispatch('getData')
         }
         catch(e){
             console.log(e)
         }
+    },
+    regisSubID(index){
+       localStorage.setItem("join_subjectIndex", index)
     }
   },
   async mounted() {
@@ -125,8 +133,8 @@ export default {
     display: flex;
     flex-wrap: wrap;
 }
-.report{
-    width: 35%;
+.join{
+    width: 6rem;
     text-align: center;
     border-radius: 1.2rem;
     background-color: #FF8800;

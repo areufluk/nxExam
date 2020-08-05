@@ -24,5 +24,6 @@ urlpatterns = [
     path('getSub', views.getSubject, name='getSubject'),
     path('getSublist', views.getSublist, name='getSubjectList'),
     path('updateSub', views.updateSubject, name='updateSubject'),
-    path('getAllSub',views.getAllSubject, name='getAllSubject')
+    path('getAllSub',views.getAllSubject, name='getAllSubject'),
+    path('getSubTesting',views.getSubTesting, name='getSubTesting')
 ]
