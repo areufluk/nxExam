@@ -4,7 +4,7 @@
     <div class="card-area">
         <div v-for="data in datas" :key="data.id" class="col-sm-6 col-lg-3">
             <div class="card">
-                <div clsss="card-body">
+                <div class="card-body">
                     <p class="title_subject" v-if="data.subject_name.length < 15"> {{ data.subject_name }} </p>
                     <p class="title_subject" v-else> {{ data.subject_name.substring(0,15) + ".." }} </p>
                     <p class="detail"> {{ "Subject ID : " + data.subject_id }} </p>

@@ -23,5 +23,6 @@ urlpatterns = [
     path('saveSub', views.saveSubject, name='saveSubject'),
     path('getSub', views.getSubject, name='getSubject'),
     path('getSublist', views.getSublist, name='getSubjectList'),
-    path('updateSub', views.updateSubject, name='updateSubject')
+    path('updateSub', views.updateSubject, name='updateSubject'),
+    path('getAllSub',views.getAllSubject, name='getAllSubject')
 ]

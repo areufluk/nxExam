@@ -96,3 +96,11 @@ def mail_validate(mail):
 def idGen(): 
   id_text = ''.join([random.choice(string.ascii_letters + string.digits) for n in range(6)])
   return id_text  
+
+@api_view(['GET'])
+def getAllSubject(request):
+  if request.method == 'GET':
+    result = database.child("Exam").get()
+    result = dict(result.val())
+    return Response(result, status=status.HTTP_200_OK)
+  return Response(status=status.HTTP_400_BAD_REQUEST)

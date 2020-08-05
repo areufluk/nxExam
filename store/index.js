@@ -50,6 +50,13 @@ export const actions = {
     )
     return data 
   },
+  async getData({commit}) {
+    const { data } = await axios.get(
+        '/api/getAllSub',{
+        }
+    )
+    return data 
+  },
   async postSubmit({commit}, name) {
     await axios.post('/api/saveSub' ,{
       created_by: name[0],
