@@ -50,10 +50,10 @@ export const actions = {
     )
     return data 
   },
-  async postSubmit({commit}, name, data) {
+  async postSubmit({commit}, name) {
     await axios.post('/api/saveSub' ,{
-      created_by: name,
-      e_data: data
+      created_by: name[0],
+      ex: name[1]
     })
     .catch((err) => console.log(err))
   }

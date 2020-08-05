@@ -35,10 +35,11 @@ def reqToken(request):
 
 @api_view(['POST'])
 def saveSubject(request):
-  if request.method == 'POST':
+  if request.method == 'POST':  
     uid = idGen()
+    print(request.data)
     print(uid)
-    database.child("Exam").child(uid).set(request.data['e_data'])
+    database.child("Exam").child(uid).set(request.data['ex'])
     database.child("Teacher").child(request.data['created_by']).child(uid).set(uid)
     return Response(status = status.HTTP_200_OK)
   return Response(status= status.HTTP_400_BAD_REQUEST)
@@ -95,21 +96,3 @@ def mail_validate(mail):
 def idGen(): 
   id_text = ''.join([random.choice(string.ascii_letters + string.digits) for n in range(6)])
   return id_text  
-
-
-"""
-{
-    "created_by" : "chanayut",
-    "teacher_name" : "chanayut",
-    "subject_name" : "IST",
-    "subject_id" : "09012154",
-    "start" : "09.00",
-    "end" : "12.00",
-    "easy" : 10,
-    "medium" : 10,
-    "hard" : 10,
-    "back" : true,
-    "scoring_method" : 2,
-    "show_score" : true
-}
-"""

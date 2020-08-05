@@ -234,7 +234,7 @@ export default {
     ),
     methods: {
         async postSubmit() {
-          await this.$store.dispatch('postSubmit', this.name, this.datas)
+          await this.$store.dispatch('postSubmit', [this.name, this.datas])
         },
         addQuestion() {
           this.datas.arrQuestion.push(this.question)
