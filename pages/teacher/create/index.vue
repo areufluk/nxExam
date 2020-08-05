@@ -234,7 +234,7 @@ export default {
     ),
     methods: {
         async postSubmit() {
-            await axios.post('http://127.0.0.1:8000/saveSub' ,{
+            await axios.post('/api/saveSub' ,{
               created_by:this.name,
               e_data:this.datas
             })
