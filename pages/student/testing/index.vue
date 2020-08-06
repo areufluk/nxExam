@@ -36,7 +36,7 @@ export default {
       hard:[],
       num_easy:'',
       num_medium:'',
-      num_hard:'',
+      num_hard:''
     }
   },
   methods: {
@@ -52,21 +52,25 @@ export default {
     },
     async compute(){
         for(let i = 0;i < this.datas.length; i++){
-            console.log(this.datas[i].level)
             if(this.datas[i].level == 'easy')   this.easy.push(this.datas[i])
             else if(this.datas[i].level == 'medium')   this.medium.push(this.datas[i])
             else if(this.datas[i].level == 'hard')   this.hard.push(this.datas[i])
         }
         this.easy = this.easy.sort(() => Math.random() - 0.5)
         this.medium = this.medium.sort(() => Math.random() - 0.5)
+
         this.hard = this.hard.sort(() => Math.random() - 0.5)
+
         for(let i = 0; i<this.num_easy ;i++){
+            this.easy[i].arrChoice = this.easy[i].arrChoice.sort(() => Math.random() - 0.5)
             this.selected_datas.push(this.easy[i])
         }
         for(let i = 0; i<this.num_medium ;i++){
+            this.medium[i].arrChoice = this.medium[i].arrChoice.sort(() => Math.random() - 0.5)
             this.selected_datas.push(this.medium[i])
         }
         for(let i = 0; i<this.num_hard ;i++){
+            this.hard[i].arrChoice = this.hard[i].arrChoice.sort(() => Math.random() - 0.5)
             this.selected_datas.push(this.hard[i])
         }
         console.log(this.selected_datas)
@@ -77,9 +81,6 @@ export default {
       this.num_easy = await localStorage.getItem("num_easy")
       this.num_medium = await localStorage.getItem("num_medium")
       this.num_hard = await localStorage.getItem("num_hard")
-    //   console.log(this.num_easy)
-    //   console.log(this.num_medium)
-    //   console.log(this.num_hard)
       await this.getQuestion()
       await this.compute()
   }
