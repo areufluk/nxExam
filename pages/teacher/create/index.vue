@@ -124,6 +124,7 @@
           <v-row justify="center" class="mt-5">
             <v-btn color="success" class="mx-3" width="200px" height="50px" @click="postSubmit()">Create!</v-btn>
           </v-row>
+          <p>{{datas.arrQuestion}}</p>
         </v-col>
         <v-col sm="6">
           <v-dialog v-model="dialog" persistent max-width="800">
@@ -147,23 +148,19 @@
               </v-card-title>
               <v-card-text  class="pb-0">
                 <v-container>
-                    <v-row>
-                      <v-col cols="12" sm="9" class="pb-0">
-                        <v-text-field label="Question*" required v-model="question.text"></v-text-field> 
-                      </v-col>
-                      <v-col cols="12" sm="3" class="pb-0">
-                        <v-select v-model="question.level" :items="level" label="choose level"></v-select>
-                      </v-col>
-                    </v-row>
+                    
+                    <v-col cols="12" class="pb-0">
+                      <v-text-field label="Question*" required v-model="question.text"></v-text-field> 
+                    </v-col>
                     <v-col cols="12" class="pt-0">
-                      <div v-for="ch in question.arrChoice" :key="ch.index">
+                      <div v-for="(ch, index) in question.arrChoice" :key="ch.index">
                         <v-card
                           class="d-flex pl-5 mb-2"
                         >
                           <v-checkbox v-model="ch.isTrue"></v-checkbox>
                           <v-text-field v-model="ch.text" class="px-2" placeholder="choice..."></v-text-field>
                           <v-col sm="1" class="mt-1">  
-                            <v-btn icon @click="delChoice(ch.index)">
+                            <v-btn icon @click="delChoice(index)">
                               <v-icon>mdi-close</v-icon>
                             </v-btn>
                           </v-col>
@@ -171,6 +168,17 @@
                       </div> 
                       <v-btn block x-large @click="addChoice()">Add choice</v-btn>
                     </v-col>
+                    <v-row>
+                      <v-col cols="12" sm="4" class="pb-0">
+                        <v-select v-model="question.level" :items="level" label="choose level"></v-select>
+                      </v-col>
+                      <v-col cols="12" sm="4" class="pb-0">
+                        <v-text-field label="add score" v-model="question.add_score"></v-text-field>
+                      </v-col>
+                      <v-col cols="12" sm="4" class="pb-0">
+                        <v-text-field label="sub score" v-model="question.sub_score"></v-text-field>
+                      </v-col>
+                    </v-row>  
                 </v-container>
               </v-card-text>
               <v-card-actions>
@@ -180,8 +188,14 @@
               </v-card-actions>
             </v-card>
           </v-dialog>
-          <div v-for="qu in datas.arrQuestion" :key="qu.index">
-            <problem :level="qu.level" :text="qu.text"/>
+          <div v-for="(qu, index) in datas.arrQuestion" :key="index">
+            <problem 
+              :level="qu.level"
+              :text="qu.text"
+              :ob="qu" 
+              @delQuestion="delQuestion(index)"
+              @updat="updQuestion(index, $event)"
+            />
           </div>  
         </v-col>
       </v-row>
@@ -223,6 +237,8 @@ export default {
             question: {
               level: 'easy',
               text: '',
+              add_score: 0,
+              sub_score: 0,
               arrChoice: []
             },
             choice: {
@@ -254,6 +270,12 @@ export default {
         },
         delChoice(index){
           this.question.arrChoice.splice(index, 1)
+        },
+        delQuestion(index){
+          this.datas.arrQuestion.splice(index, 1)
+        },
+        updQuestion(index ,newData){
+          this.datas.arrQuestion[index] = newData
         }
     }
 }

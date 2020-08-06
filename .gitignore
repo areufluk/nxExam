@@ -88,3 +88,7 @@ sw.*
 
 # Vim swap files
 *.swp
+backend/nxapi/nxapi/__pycache__/views.cpython-38.pyc
+backend/nxapi/nxapi/__pycache__/urls.cpython-38.pyc
+backend/nxapi/nxapi/__pycache__/settings.cpython-38.pyc
+backend/nxapi/nxapi/__pycache__/wsgi.cpython-38.pyc
