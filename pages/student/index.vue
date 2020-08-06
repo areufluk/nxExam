@@ -12,10 +12,9 @@
                     <p class="detail"> {{ "Date : " + data.date }} </p>
                     <p class="detail"> {{ "Start : " + data.start_time }} </p>
                     <p class="detail"> {{ "End : " + data.end_time }} </p>
-                    <p class="detail"> {{ "index : " + index }} </p>
                     <div class="list_menu">
                       <a href="student/testing">
-                        <div class="join" @click="regisSubID(index)">
+                        <div class="join" @click="regisSubID(index, data.easy, data.medium, data.hard)">
                           <p>Join</p>
                         </div>
                       </a>
@@ -48,8 +47,11 @@ export default {
             console.log(e)
         }
     },
-    regisSubID(index){
+    regisSubID(index, easy, medium, hard){
        localStorage.setItem("join_subjectIndex", index)
+       localStorage.setItem("num_easy", easy)
+       localStorage.setItem("num_medium", medium)
+       localStorage.setItem("num_hard", hard)
     }
   },
   async mounted() {
